@@ -1,0 +1,238 @@
+/* ── Pins ─────────────────────────────────────────── */
+.waymark-pin {
+  position:absolute; width:22px; height:22px;
+  border-radius:50% 50% 50% 0; transform:rotate(-45deg);
+  cursor:grab; z-index:2147483645;
+  background:var(--pin-color,#e8612a);
+  box-shadow:0 2px 10px color-mix(in srgb,var(--pin-color,#e8612a) 55%,transparent);
+  animation:wm-pop 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  pointer-events:all; user-select:none;
+}
+.waymark-pin:active { cursor:grabbing; }
+.waymark-pin::after {
+  content:'';position:absolute;top:50%;left:50%;
+  width:8px;height:8px;background:white;border-radius:50%;
+  transform:translate(-50%,-50%) rotate(45deg);
+}
+.waymark-pin:hover { transform:rotate(-45deg) translateY(-3px); }
+.waymark-pin-active { animation:wm-pulse 0.4s ease 2 !important; }
+@keyframes wm-pop { from{transform:rotate(-45deg) scale(0);opacity:0} to{transform:rotate(-45deg) scale(1);opacity:1} }
+@keyframes wm-pulse { 0%,100%{transform:rotate(-45deg) scale(1)} 50%{transform:rotate(-45deg) scale(1.5)} }
+
+/* ── Scroll indicator ─────────────────────────────── */
+#waymark-indicator {
+  position:fixed;top:0;right:0;width:30px;height:100vh;
+  z-index:2147483646;pointer-events:none;
+  overflow:visible;
+}
+.wm-bm-wrap {
+  position:absolute;right:0;
+  display:flex;align-items:center;flex-direction:row-reverse;
+  pointer-events:all;
+  transform:translateY(-50%);
+  overflow:visible;
+}
+.wm-bookmark-shape {
+  flex-shrink:0;
+  width:26px;height:14px;
+  cursor:pointer;pointer-events:all;
+  transition:transform 0.15s,filter 0.15s;
+  filter:drop-shadow(-2px 1px 3px rgba(0,0,0,0.35));
+  position:relative;
+}
+.wm-bookmark-shape:hover { transform:scale(1.15); }
+.wm-bookmark-shape svg { width:100%;height:100%; display:block; }
+.wm-bookmark-shape svg path {
+  fill:var(--bm-color,#e8612a);
+  stroke:var(--bm-stroke,#c04e1e);
+  stroke-width:0.8;
+}
+
+/* ── Hover label — simple popup to the left ── */
+.wm-bm-label {
+  display:none;
+  position:absolute;
+  right:28px;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(20,20,26,0.95);
+  color:#f0ede8;
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:11px;
+  font-weight:600;
+  padding:4px 9px;
+  border-radius:5px;
+  border-left:2px solid var(--pin-color,#e8612a);
+  white-space:nowrap;
+  max-width:180px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  box-shadow:0 2px 10px rgba(0,0,0,0.4);
+  pointer-events:none;
+  z-index:2147483647;
+}
+.wm-bm-wrap:hover .wm-bm-label { display:block; }
+[data-theme="light"] .wm-bm-label {background:rgba(255,255,255,0.97);color:#1a1812;}
+
+/* ── Clothing tag — always-visible label next to arrow tip ── */
+.wm-bm-tag {
+  display:none;
+  position:absolute;
+  /* tip of the arrow shape is at x=0 (leftmost point), y=7 (vertical center) */
+  left:0;
+  top:7px;
+  pointer-events:all;
+  cursor:pointer;
+  z-index:2147483647;
+}
+.wm-bm-tag-always { display:block; }
+
+.wm-bm-tag-box {
+  position:absolute;
+  /* place box so its right edge is flush with the tip: right edge at x=0 */
+  right:0;
+  top:0;
+  transform:translate(-100%, -50%);
+  background:rgba(20,20,26,0.93);
+  color:#f0ede8;
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:10px;
+  font-weight:600;
+  padding:2px 6px;
+  border-radius:3px;
+  border:1.5px solid var(--pin-color,#e8612a);
+  white-space:nowrap;
+  max-width:120px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  box-shadow:0 2px 6px rgba(0,0,0,0.4);
+  line-height:1.4;
+}
+[data-theme="light"] .wm-bm-tag-box {background:rgba(255,255,255,0.97);color:#1a1812;}
+.wm-bm-tag:hover .wm-bm-tag-box { filter:brightness(1.15); }
+
+
+.wm-bm-title-input {
+  display:none;
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
+  width:160px;
+  padding:5px 9px;
+  border-radius:6px;
+  border:1px solid rgba(232,97,42,0.6);
+  background:rgba(26,26,31,0.95);
+  color:#f0ede8;
+  font-family:'Lato',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  outline:none;
+  box-shadow:0 3px 14px rgba(0,0,0,0.5);
+  z-index:2147483647;
+  white-space:nowrap;
+}
+
+/* ── Floating buttons ─────────────────────────────── */
+#waymark-float {
+  position:fixed;z-index:2147483646;
+  display:flex;flex-direction:column;gap:7px;pointer-events:all;
+}
+.wm-float-btn {
+  width:38px;height:38px;border-radius:9px;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:#e8612a;color:white;
+  box-shadow:0 3px 12px rgba(0,0,0,0.3);
+  transition:transform 0.15s,box-shadow 0.15s;
+}
+.wm-float-btn:hover { transform:scale(1.1);box-shadow:0 5px 18px rgba(0,0,0,0.4); }
+
+/* ── Trash ────────────────────────────────────────── */
+#waymark-trash {
+  position:fixed;z-index:2147483647;
+  width:42px;height:42px;border-radius:10px;
+  background:rgba(30,30,30,0.92);
+  border:2px dashed rgba(224,85,85,0.5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;pointer-events:all;
+  transition:all 0.15s;
+  box-shadow:0 3px 14px rgba(0,0,0,0.4);
+}
+#waymark-trash.wm-trash-over {
+  background:rgba(224,85,85,0.25);
+  border-color:#e05555;
+  transform:scale(1.2);
+}
+
+/* ── Sticky note title ────────────────────────────── */
+.waymark-sticky {
+  position:absolute;
+  z-index:2147483644;
+  pointer-events:none;
+  max-width:180px;
+  background:#fffbe6;
+  color:#2a2008;
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:11px;
+  font-weight:600;
+  line-height:1.4;
+  padding:5px 9px 5px 8px;
+  border-radius:3px 6px 6px 3px;
+  border-left:3px solid var(--pin-color,#e8612a);
+  box-shadow:1px 2px 8px rgba(0,0,0,0.2),0 1px 2px rgba(0,0,0,0.1);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  animation:wm-pop 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+[data-theme="dark"] .waymark-sticky{
+  background:#2a2510;color:#ede08a;
+}
+
+/* Sticky note hover-only variant */
+.waymark-sticky-hover {
+  opacity:0;
+  transition:opacity 0.15s;
+  pointer-events:none;
+}
+.waymark-pin:hover ~ .waymark-sticky-hover,
+.waymark-sticky-hover:hover {
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* ── Pin double-click title input ─────────────────── */
+.wm-pin-title-input {
+  position: absolute;
+  z-index: 2147483646;
+  background: #1a1a22;
+  color: #f0ede8;
+  border: 1.5px solid var(--pin-color, #e8612a);
+  border-radius: 6px;
+  padding: 4px 9px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  width: 160px;
+  outline: none;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+}
+
+/* ── Sidebar label always-visible variant ─────────── */
+.wm-bm-label-always {
+  display: block !important;
+  opacity: 0.9;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+/* ── PDF overlay pins ──────────────────────────────── */
+.waymark-pin-pdf {
+  position: fixed !important;
+  right: 44px;
+  cursor: pointer;
+  z-index: 2147483647;
+  /* same shape as normal pin but slightly smaller */
+  width: 18px;
+  height: 22px;
+}

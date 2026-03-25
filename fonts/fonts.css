@@ -1,0 +1,15 @@
+/* Inter */
+@font-face { font-family:'Inter'; font-style:normal; font-weight:400; src:url('inter-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family:'Inter'; font-style:normal; font-weight:500; src:url('inter-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family:'Inter'; font-style:normal; font-weight:600; src:url('inter-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family:'Inter'; font-style:normal; font-weight:700; src:url('inter-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family:'Inter'; font-style:normal; font-weight:900; src:url('inter-latin-900-normal.woff2') format('woff2'); }
+
+/* JetBrains Mono */
+@font-face { font-family:'JetBrains Mono'; font-style:normal; font-weight:400; src:url('jetbrains-mono-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family:'JetBrains Mono'; font-style:normal; font-weight:500; src:url('jetbrains-mono-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family:'JetBrains Mono'; font-style:normal; font-weight:700; src:url('jetbrains-mono-latin-700-normal.woff2') format('woff2'); }
+
+/* Fallback aliases for other font picker options — use system fonts */
+/* DM Sans → system-ui, Nunito → Verdana, Outfit → Trebuchet, Lato → system-ui */
+/* Fira Code → monospace, Arial Black → Arial Black (system) */

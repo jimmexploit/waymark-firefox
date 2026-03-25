@@ -1,0 +1,84 @@
+{
+  "manifest_version": 2,
+  "name": "Waymark",
+  "version": "1.0.1",
+  "description": "Drop pins anywhere on a page. One-time or saved permanently.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "waymark@jimmex.vercel.app",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ],
+        "optional": []
+      }
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "contextMenus",
+    "bookmarks",
+    "tabs",
+    "<all_urls>",
+    "file:///*"
+  ],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Waymark",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "commands": {
+    "mark-spot": {
+      "suggested_key": {
+        "default": "Alt+M"
+      },
+      "description": "Mark this spot (one-time)"
+    },
+    "save-spot": {
+      "suggested_key": {
+        "default": "Alt+S"
+      },
+      "description": "Save this spot (permanent)"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>",
+        "file:///*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_security_policy": "script-src 'self'; object-src 'self';",
+  "web_accessible_resources": [
+    "fonts/*"
+  ]
+}
