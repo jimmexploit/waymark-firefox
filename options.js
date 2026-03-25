@@ -420,6 +420,7 @@ function markDirty() {
   btn.textContent='Save settings'; btn.classList.remove('saved');
 }
 
+// f hena issue check later 
 async function saveAll() {
   const g = id => document.getElementById(id);
   settings.scrollIndicator   = g('setting-indicator').checked;
